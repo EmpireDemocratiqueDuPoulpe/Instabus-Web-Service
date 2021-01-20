@@ -15,6 +15,7 @@ class Post {
             'SELECT
                     post.post_id,
                     user.username,
+                    post.station_id,
                     post.title,
                     post.creation_timestamp,
                     post.img_path,
