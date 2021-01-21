@@ -45,11 +45,11 @@ class Post {
         $params = [];
 
         if (!is_null($user_id)) {
-            $sql .= 'WHERE post.user_id = :user_id';
+            $sql .= ' WHERE post.user_id = :user_id';
             $params = ["user_id" => $user_id];
         }
 
-        $sql .= 'ORDER BY post.creation_timestamp DESC';
+        $sql .= ' ORDER BY post.creation_timestamp DESC';
 
         return $this->_db->sendQuery($sql, $params);
     }
