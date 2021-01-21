@@ -5,7 +5,7 @@
 ############################
 
 define("ROOT", str_replace('\\', '/', __DIR__));
-define("SERVER_IP", gethostbyname(gethostname()));
+define("SERVER_IP", gethostbyname(gethostname() . ".local"));
 
 ############################
 # Load classes
