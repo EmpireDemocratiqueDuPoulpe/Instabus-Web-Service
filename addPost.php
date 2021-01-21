@@ -30,6 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $posts->add($user_id, $station_id, $title, $img_uri);
         $response["error"] = false;
         $response["uri"] = $img_uri;
+        $response["message"] = $img_path;
+        $response["message2"] = $_FILES["image"]["tmp_name"];
     } catch (Exception $err) {
         $response["error"] = true;
         $response["message"] = $err->getMessage();
