@@ -29,9 +29,8 @@ class Post {
         );
     }
 
-    public function getAll(): array {
-        return $this->_db->sendQuery(
-            'SELECT
+    public function getAll(int $user_id = null): array {
+        $sql = 'SELECT
                     post.post_id,
                     user.username,
                     post.station_id,
@@ -41,9 +40,18 @@ class Post {
                     COUNT(likes.post_id) as likes
                 FROM post
                 JOIN user ON user.user_id = post.user_id
-                LEFT JOIN likes ON likes.post_id = post.post_id
-                ORDER BY post.creation_timestamp DESC'
-        );
+                LEFT JOIN likes ON likes.post_id = post.post_id';
+
+        $params = [];
+
+        if (!is_null($user_id)) {
+            $sql .= 'WHERE post.user_id = :user_id';
+            $params = ["user_id" => $user_id];
+        }
+
+        $sql .= 'ORDER BY post.creation_timestamp DESC';
+
+        return $this->_db->sendQuery($sql, $params);
     }
 
     public function getFileName() : int {
