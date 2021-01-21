@@ -10,5 +10,5 @@ if (!is_null($user_id)) {
 } else if (!is_null($post_id)) {
     echo json_encode($posts->getById($post_id));
 } else {
-    echo json_encode($posts->getAll());
+    echo json_encode(["error" => "missing user_id or post_id"]);
 }
