@@ -29,7 +29,7 @@ class Post {
         );
     }
 
-    public function getAll(int $user_id = null): array {
+    public function getAll(int $user_id = null, int $station_id = null): array {
         $sql = 'SELECT
                     post.post_id,
                     user.username,
@@ -47,6 +47,11 @@ class Post {
         if (!is_null($user_id)) {
             $sql .= ' WHERE post.user_id = :user_id';
             $params = ["user_id" => $user_id];
+        }
+
+        if (!is_null($station_id)) {
+            $sql .= ' AND post.station_id = :station_id';
+            $params = ["station_id" => $station_id];
         }
 
         $sql .= ' ORDER BY post.creation_timestamp DESC';
