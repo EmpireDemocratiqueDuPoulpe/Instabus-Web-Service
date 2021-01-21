@@ -5,6 +5,7 @@
 ############################
 
 define("ROOT", str_replace('\\', '/', __DIR__));
+define("SERVER_IP", gethostbyname(gethostname()));
 
 ############################
 # Load classes
@@ -25,9 +26,9 @@ $config = parse_ini_file(ROOT . "/config/config.ini", true);
 
 $db = PDOFactory::getInstance(
     PDOFactory::DATABASE_TYPE_MYSQL,
-    $config["DB"]["host"],
-    $config["DB"]["dbname"],
-    $config["DB"]["port"],
-    $config["DB"]["user"],
-    $config["DB"]["password"]
+    $config["db"]["host"],
+    $config["db"]["dbname"],
+    $config["db"]["port"],
+    $config["db"]["user"],
+    $config["db"]["password"]
 );

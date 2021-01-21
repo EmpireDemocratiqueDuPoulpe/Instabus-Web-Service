@@ -46,6 +46,18 @@ class Post {
         );
     }
 
+    public function getFileName() : int {
+        $last_id = $this->_db->sendQuery(
+            'SELECT MAX(post_id) AS post_id FROM post'
+        )["0"]["post_id"];
+
+        if ($last_id == null) {
+            return 1;
+        } else {
+            return ((int) $last_id) + 1;
+        }
+    }
+
     // ADD
     public function add(int $user_id, int $station_id, string $title, string $img_path) {
         $this->_db->sendQuery(
