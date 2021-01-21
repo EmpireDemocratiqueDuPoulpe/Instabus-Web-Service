@@ -44,14 +44,21 @@ class Post {
 
         $params = [];
 
-        if (!is_null($user_id)) {
-            $sql .= ' WHERE post.user_id = :user_id';
-            $params = ["user_id" => $user_id];
-        }
+        if (!is_null($user_id) || !is_null($station_id)) {
+            $sql .= ' WHERE';
 
-        if (!is_null($station_id)) {
-            $sql .= ' AND post.station_id = :station_id';
-            $params = ["station_id" => $station_id];
+            if (!is_null($user_id)) {
+                $sql .= ' post.user_id = :user_id';
+                $params = ["user_id" => $user_id];
+
+                if (!is_null($station_id)) {
+                    $sql .= ' AND post.station_id = :station_id';
+                    $params += ["station_id" => $station_id];
+                }
+            } else {
+                $sql .= ' post.station_id = :station_id';
+                $params += ["station_id" => $station_id];
+            }
         }
 
         $sql .= ' ORDER BY post.creation_timestamp DESC';
