@@ -25,32 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Save the file
     try {
-        $response["status"] = move_uploaded_file($_FILES["image"]["tmp_name"], $img_path);
-
-        if ($_FILES['image']['error']) {
-            switch ($_FILES['image']['error']) {
-                case 1: // UPLOAD_ERR_INI_SIZE
-                    $response["err"] = "Le fichier dépasse la taille autorisée par le serveur";
-                    break;
-
-                case 2: // UPLOAD_ERR_FORM_SIZE
-                    $response["err"] = "Le fichier dépasse la limite autorisée dans le formulaire HTML";
-                    break;
-
-                case 3: // UPLOAD_ERR_PARTIAL
-                    $response["err"] = "L'envoi du fichier à été intérrompu pendant le transfert";
-                    break;
-                case 4: // UPLOAD_ERR_NO_FILE
-                    $response["err"] = "Le fichier que vous avez uploadé a une taille nulle";
-                    break;
-            }
-        }
+        move_uploaded_file($_FILES["image"]["tmp_name"], $img_path);
 
         $posts->add($user_id, $station_id, $title, $img_uri);
         $response["error"] = false;
         $response["uri"] = $img_uri;
-        $response["message"] = $img_path;
-        $response["message2"] = $_FILES["image"]["tmp_name"];
     } catch (Exception $err) {
         $response["error"] = true;
         $response["message"] = $err->getMessage();
