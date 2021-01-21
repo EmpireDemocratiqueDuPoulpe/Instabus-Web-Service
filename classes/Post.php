@@ -22,8 +22,9 @@ class Post {
                     COUNT(likes.post_id) as likes
                 FROM post
                 JOIN user ON user.user_id = post.user_id
-                JOIN likes ON likes.post_id = post.post_id
+                LEFT JOIN likes ON likes.post_id = post.post_id
                 WHERE post.post_id = :post_id
+                GROUP BY post.post_id
                 LIMIT 1',
                 ["post_id" => $post_id]
         );
@@ -61,7 +62,7 @@ class Post {
             }
         }
 
-        $sql .= ' ORDER BY post.creation_timestamp DESC';
+        $sql .= ' GROUP BY post.post_id ORDER BY post.creation_timestamp DESC';
 
         return $this->_db->sendQuery($sql, $params);
     }
