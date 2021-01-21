@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Save the file
     try {
-        move_uploaded_file($_FILES["image"]["tmp_name"], $img_path);
+        $response["status"] = move_uploaded_file($_FILES["image"]["tmp_name"], $img_path);
 
         $posts->add($user_id, $station_id, $title, $img_uri);
         $response["error"] = false;
