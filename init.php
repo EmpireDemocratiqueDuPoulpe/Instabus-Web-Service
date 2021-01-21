@@ -5,7 +5,12 @@
 ############################
 
 define("ROOT", str_replace('\\', '/', __DIR__));
-define("SERVER_IP", gethostbyname(gethostname() . ".local"));
+
+$externalContent = file_get_contents('http://checkip.dyndns.com/');
+preg_match('/Current IP Address: \[?([:.0-9a-fA-F]+)\]?/', $externalContent, $m);
+$externalIp = $m[1];
+
+define("SERVER_IP", $externalIp);
 
 ############################
 # Load classes
