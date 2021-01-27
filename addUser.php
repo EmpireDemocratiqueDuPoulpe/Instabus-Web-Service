@@ -7,9 +7,9 @@ $username = $_POST["username"] ?? null;
 $mail = $_POST["mail"] ?? null;
 $password = $_POST["password"] ?? null;
 
-if (is_null($username))    { echo json_encode(["status" => false, "err" => "Empty username."]); }
-if (is_null($mail))       { echo json_encode(["status" => false, "err" => "Empty email."]); }
-if (is_null($password))    { echo json_encode(["status" => false, "err" => "Empty password."]); }
+if (is_null($username))    { echo json_encode(["status" => false, "err" => "Empty username."]); return; }
+if (is_null($mail))       { echo json_encode(["status" => false, "err" => "Empty email.", "e" => $mail]); return; }
+if (is_null($password))    { echo json_encode(["status" => false, "err" => "Empty password."]); return; }
 
 ############################
 # Check username
