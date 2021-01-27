@@ -114,7 +114,7 @@ class User {
         }
 
         // Check availability
-        $emailResult = $this->_db->sendQuery('SELECT user_id FROM user WHERE email = :email', ["email" => $email]);
+        $emailResult = $this->_db->sendQuery('SELECT user_id FROM user WHERE mail = :email', ["email" => $email]);
 
         if ($emailResult) {
             return false;
