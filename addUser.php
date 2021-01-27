@@ -2,47 +2,45 @@
 require_once "./init.php";
 $users = new User($db);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get data
-    $username = $_POST["username"] ?? null;
-    $email = $_POST["email"] ?? null;
-    $password = $_POST["password"] ?? null;
+// Get data
+$username = $_POST["username"] ?? null;
+$email = $_POST["email"] ?? null;
+$password = $_POST["password"] ?? null;
 
-    if (is_null($username))    { echo json_encode(["status" => false, "err" => "Empty username."]); }
-    if (is_null($email))       { echo json_encode(["status" => false, "err" => "Empty email."]); }
-    if (is_null($password))    { echo json_encode(["status" => false, "err" => "Empty password."]); }
+if (is_null($username))    { echo json_encode(["status" => false, "err" => "Empty username."]); }
+if (is_null($email))       { echo json_encode(["status" => false, "err" => "Empty email."]); }
+if (is_null($password))    { echo json_encode(["status" => false, "err" => "Empty password."]); }
 
-    ############################
-    # Check username
-    ############################
+############################
+# Check username
+############################
 
-    if (!$users->checkUsername($username)) {
-        echo json_encode(["status" => false, "err" => "Not valid username."]);
-        return;
-    }
+if (!$users->checkUsername($username)) {
+    echo json_encode(["status" => false, "err" => "Not valid username."]);
+    return;
+}
 
-    ############################
-    # Check email
-    ############################
+############################
+# Check email
+############################
 
-    if (!$users->checkEmail($email)) {
-        echo json_encode(["status" => false, "err" => "Not valid email."]);
-        return;
-    }
+if (!$users->checkEmail($email)) {
+    echo json_encode(["status" => false, "err" => "Not valid email."]);
+    return;
+}
 
-    ############################
-    # Hash password
-    ############################
+############################
+# Hash password
+############################
 
-    $password_hashed = $users->hashPassword($password, $config["security"]["pepper"]);
+$password_hashed = $users->hashPassword($password, $config["security"]["pepper"]);
 
-    ############################
-    # Add user
-    ############################
+############################
+# Add user
+############################
 
-    if ($users->add($username, $email, $password)) {
-        echo json_encode(["status" => true]);
-    } else {
-        echo json_encode(["status" => false, "err" => "Unknown error on register."]);
-    }
+if ($users->add($username, $email, $password)) {
+    echo json_encode(["status" => true]);
+} else {
+    echo json_encode(["status" => false, "err" => "Unknown error on register."]);
 }
