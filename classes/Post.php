@@ -92,10 +92,10 @@ class Post {
     // UPDATE
 
     // DELETE
-    public function deleteById(int $post_id) {
+    public function deleteById(int $post_id, int $user_id) {
         $this->_db->sendQuery(
-            'DELETE FROM post WHERE post_id = :post_id',
-            ["post_id" => $post_id],
+            'DELETE FROM post WHERE post_id = :post_id AND user_id = :user_id',
+            ["post_id" => $post_id, "user_id" => $user_id],
             false
         );
     }
