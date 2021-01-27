@@ -34,11 +34,11 @@ class User {
     }
 
     // ADD
-    public function add(string $username, string $password) {
+    public function add(string $username, string $email, string $password) {
         $this->_db->sendQuery(
-            'INSERT INTO user(username, password)
-                VALUES (:username, :password)',
-            ["username" => $username, "password" => $password],
+            'INSERT INTO user(username, email, password)
+                VALUES (:username, :email, :password)',
+            ["username" => $username, "email" => $email, "password" => $password],
             false
         );
     }
