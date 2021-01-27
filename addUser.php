@@ -12,7 +12,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (is_null($email))       { echo json_encode(false); }
     if (is_null($password))    { echo json_encode(false); }
 
-    // Add the user
-    $users->add($username, $email, $password);
-    echo json_encode(true);
+    ############################
+    # Check username
+    ############################
+
+    if (!$users->checkUsername($username)) {
+        echo json_encode(false);
+        return;
+    }
+
+    ############################
+    # Check email
+    ############################
+
+    if (!$users->checkEmail($email)) {
+        echo json_encode(false);
+        return;
+    }
+
+    ############################
+    # Check email
+    ############################
+
+    $password_hashed = $users->hashPassword($password, $config["security"]["pepper"]);
+
+    ############################
+    # Add user
+    ############################
+
+    if ($users->add($username, $email, $password)) {
+        echo json_encode(true);
+    } else {
+        echo json_encode(true);
+    }
 }
