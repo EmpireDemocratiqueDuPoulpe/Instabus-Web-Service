@@ -8,16 +8,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"] ?? null;
     $password = $_POST["password"] ?? null;
 
-    if (is_null($username))    { echo json_encode(false); }
-    if (is_null($email))       { echo json_encode(false); }
-    if (is_null($password))    { echo json_encode(false); }
+    if (is_null($username))    { echo json_encode(["status" => false, "err" => "Empty username."]); }
+    if (is_null($email))       { echo json_encode(["status" => false, "err" => "Empty email."]); }
+    if (is_null($password))    { echo json_encode(["status" => false, "err" => "Empty password."]); }
 
     ############################
     # Check username
     ############################
 
     if (!$users->checkUsername($username)) {
-        echo json_encode(false);
+        echo json_encode(["status" => false, "err" => "Not valid username."]);
         return;
     }
 
@@ -25,10 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     # Check email
     ############################
 
-    //if (!$users->checkEmail($email)) {
-    //    echo json_encode(false);
-    //    return;
-    //}
+    if (!$users->checkEmail($email)) {
+        echo json_encode(["status" => false, "err" => "Not valid email."]);
+        return;
+    }
 
     ############################
     # Hash password
@@ -41,8 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ############################
 
     if ($users->add($username, $email, $password)) {
-        echo json_encode(true);
+        echo json_encode(["status" => true]);
     } else {
-        echo json_encode(true);
+        echo json_encode(["status" => false, "err" => "Unknown error on register."]);
     }
 }
