@@ -25,13 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     # Check email
     ############################
 
-    if (!$users->checkEmail($email)) {
-        echo json_encode(false);
-        return;
-    }
+    //if (!$users->checkEmail($email)) {
+    //    echo json_encode(false);
+    //    return;
+    //}
 
     ############################
-    # Check email
+    # Hash password
     ############################
 
     $password_hashed = $users->hashPassword($password, $config["security"]["pepper"]);
