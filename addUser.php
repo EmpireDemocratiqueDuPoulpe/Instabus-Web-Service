@@ -15,7 +15,7 @@ if (is_null($password))    { echo json_encode(["status" => false, "err" => "Empt
 # Check username
 ############################
 
-if (!$users->checkUsername($username)) {
+if (!$users->checkUsername($username, false)) {
     echo json_encode(["status" => false, "err" => "Not valid username."]);
     return;
 }
@@ -39,7 +39,7 @@ $password_hashed = $users->hashPassword($password, $config["security"]["pepper"]
 # Add user
 ############################
 
-if ($users->add($username, $mail, $password)) {
+if ($users->add($username, $mail, $password_hashed)) {
     echo json_encode(["status" => true]);
 } else {
     echo json_encode(["status" => false, "err" => "Unknown error on register."]);

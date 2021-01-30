@@ -23,6 +23,20 @@ class User {
         );
     }
 
+    public function getByUsername(string $username): array {
+        return $this->_db->sendQuery(
+            'SELECT
+                    user_id,
+                    username,
+                    password
+                FROM user
+                WHERE username = :username
+                LIMIT 1',
+            ["username" => $username]
+        );
+    }
+
+
     public function getAll(): array {
         return $this->_db->sendQuery(
             'SELECT
@@ -79,12 +93,7 @@ class User {
     }
 
     // CHECK
-    public function checkUsername($username, $oldUsername = "") : bool {
-        if ($oldUsername) {
-            if ($username == $oldUsername)
-                return true;
-        }
-
+    public function checkUsername(string $username, bool $needToExist = true) : bool {
         // Check length
         $usernameLen = strlen($username);
 
@@ -96,10 +105,10 @@ class User {
         $usrResult = $this->_db->sendQuery('SELECT user_id FROM user WHERE username = :username', ["username" => $username]);
 
         if ($usrResult) {
-            return false;
+            return $needToExist;
         }
 
-        return true;
+        return !$needToExist;
     }
 
     public function checkEmail($email, $oldEmail = "") : bool {
