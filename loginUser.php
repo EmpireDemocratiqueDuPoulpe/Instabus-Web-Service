@@ -1,6 +1,7 @@
 <?php
 require_once "./init.php";
 $users = new User($db);
+$tokens = new Token($db);
 
 // Get data
 $username = $_POST["username"] ?? null;
@@ -31,7 +32,15 @@ if (!$users->checkPassword($password, $user["password"], $config["security"]["pe
 }
 
 ############################
+# Get a token
+############################
+
+$newToken = $tokens->create($user["user_id"]);
+$selector = $newToken["selector"];
+$authToken = $newToken["authenticator"];
+
+############################
 # Login user
 ############################
 
-echo json_encode(["status" => true]);
+echo json_encode(["status" => true, "selector" => "$selector", "authenticator" => "$authToken", "user_id" => $user["user_id"], "username" => $user["username"]]);

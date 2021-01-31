@@ -64,6 +64,7 @@ class PDOFactory {
         }
     }
 
+    // TODO: Change return type to an object (https://stackoverflow.com/questions/37033142/is-it-possible-to-specify-multiple-return-types-on-php-7)
     public function sendQuery(string $sql, array $vars = [], bool $return = true): ?array {
         $query = $this->_db->prepare($sql);
         $result = [];
@@ -76,7 +77,7 @@ class PDOFactory {
             $query->bindValue(":$name", $value, $type);
         }
 
-        $query->execute();
+        $success = $query->execute();
         if ($return) while ($d = $query->fetch(PDO::FETCH_ASSOC)) { $result[] = $d; }
 
         $query->closeCursor();

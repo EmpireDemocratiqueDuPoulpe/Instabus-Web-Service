@@ -48,6 +48,7 @@ class User {
     }
 
     // ADD
+    // TODO: Replace this system. Isn't accurate
     public function add(string $username, string $email, string $password) : bool {
         // Get last ID before query
         $emptyDb = false;

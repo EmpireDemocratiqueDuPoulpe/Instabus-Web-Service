@@ -1,6 +1,7 @@
 <?php
 require_once "./init.php";
 $users = new User($db);
+$tokens = new Token($db);
 
 // Get data
 $username = $_POST["username"] ?? null;
@@ -39,8 +40,27 @@ $password_hashed = $users->hashPassword($password, $config["security"]["pepper"]
 # Add user
 ############################
 
-if ($users->add($username, $mail, $password_hashed)) {
-    echo json_encode(["status" => true]);
-} else {
+if (!$users->add($username, $mail, $password_hashed)) {
     echo json_encode(["status" => false, "err" => "Unknown error on register."]);
 }
+
+$user = $users->getByUsername($username);
+$user = $user[0];
+
+if (!$user) {
+    echo json_encode(["status" => false, "err" => "Unknown error on register."]);
+}
+
+############################
+# Get a token
+############################
+
+$newToken = $tokens->create($user["user_id"]);
+$selector = $newToken["selector"];
+$authToken = $newToken["authenticator"];
+
+############################
+# Login user
+############################
+
+echo json_encode(["status" => true, "selector" => "$selector", "authenticator" => "$authToken", "user_id" => $user["user_id"], "username" => $user["username"]]);
