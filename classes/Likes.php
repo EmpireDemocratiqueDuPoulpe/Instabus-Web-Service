@@ -32,6 +32,16 @@ class Likes {
         );
     }
 
+    public function hasUserLikedPost(int $user_id, int $post_id): bool {
+	$hasLiked = $this->_db->sendQuery(
+	    'SELECT post_id FROM likes WHERE post_id = :post_id AND user_id = :user_id LIMIT 1',
+	    ["post_id" => $post_id, "user_id" => $user_id]
+	);
+
+	if ($hasLiked) return true;
+	else return false;
+    }
+
     public function getCount(int $post_id): string {
         $count = $this->_db->sendQuery('SELECT COUNT(*) AS count FROM likes WHERE post_id = :post_id', ["post_id" => $post_id]);
 
