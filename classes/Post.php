@@ -82,9 +82,9 @@ class Post {
     // ADD
     public function add(int $user_id, int $station_id, string $title, string $img_path) {
         $this->_db->sendQuery(
-            'INSERT INTO post(user_id, station_id, title, img_path)
-                VALUES (:user_id, :station_id, :title, :img_path)',
-            ["user_id" => $user_id, "station_id" => $station_id, "title" => $title, "img_path" => $img_path],
+            'INSERT INTO post(user_id, station_id, title, creation_timestamp, img_path)
+                VALUES (:user_id, :station_id, :title, :creation_timestamp, :img_path)',
+            ["user_id" => $user_id, "station_id" => $station_id, "title" => $title, "creation_timestamp" => date("Y-m-d H:i:s"), "img_path" => $img_path],
             false
         );
     }

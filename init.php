@@ -12,6 +12,8 @@ $externalIp = $m[1];
 
 define("SERVER_IP", $externalIp);
 
+date_default_timezone_set("Europe/Paris");
+
 ############################
 # Load classes
 ############################
